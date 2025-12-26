@@ -81,18 +81,18 @@ export function LoginScreen() {
         className="relative z-10 w-full max-w-md"
       >
         {/* Logo and Title */}
-        <div className="text-center mb-10">
+        <div className="flex flex-col items-center mb-10">
           <motion.div 
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ delay: 0.2, duration: 0.5 }}
-            className="inline-flex items-center justify-center w-24 h-24 rounded-2xl overflow-hidden shadow-glow mb-6"
+            className="flex items-center gap-4 mb-4"
           >
-            <img src="/ten-ten-logo.webp" alt="Ten Ten Seafood" className="w-full h-full object-cover" />
+            <img src="/ten-ten-logo.webp" alt="Ten Ten Seafood" className="h-20 w-auto object-contain" />
+            <h1 className="text-3xl font-display font-bold text-gradient">
+              Ten Ten Seafood
+            </h1>
           </motion.div>
-          <h1 className="text-3xl font-display font-bold text-gradient mb-2">
-            Ten Ten Seafood
-          </h1>
           <p className="text-ink-400">Enter your PIN to continue</p>
         </div>
 

@@ -58,11 +58,9 @@ export function MainLayout() {
         className="w-64 bg-ink-900/50 border-r border-ink-800/50 flex flex-col"
       >
         {/* Logo */}
-        <div className="p-6 border-b border-ink-800/50">
+        <div className="p-4 border-b border-ink-800/50">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl overflow-hidden shadow-glow">
-              <img src="/ten-ten-logo.webp" alt="Ten Ten Seafood" className="w-full h-full object-cover" />
-            </div>
+            <img src="/ten-ten-logo.webp" alt="Ten Ten Seafood" className="h-12 w-auto object-contain" />
             <div>
               <h1 className="font-display font-semibold text-ink-100">{restaurantName}</h1>
               <p className="text-xs text-ink-500">Point of Sale</p>
