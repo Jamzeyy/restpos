@@ -78,7 +78,7 @@ export function LoginScreen() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="relative z-10 w-full max-w-md"
+        className="relative z-10 w-full max-w-sm"
       >
         {/* Logo and Title */}
         <motion.div 
@@ -90,7 +90,7 @@ export function LoginScreen() {
           <img 
             src="/ten-ten-logo.webp" 
             alt="Ten Ten Seafood" 
-            className="absolute right-full mr-5 h-28 w-auto object-contain" 
+            className="absolute right-full mr-3 h-24 w-auto object-contain" 
           />
           <div className="flex flex-col items-center">
             <h1 className="text-3xl font-display font-bold text-gradient mb-1">
@@ -101,11 +101,11 @@ export function LoginScreen() {
         </motion.div>
 
         {/* PIN Input Card */}
-        <div className="card p-8">
+        <div className="card p-6">
           <motion.div 
             animate={isShaking ? { x: [-10, 10, -10, 10, 0] } : {}}
             transition={{ duration: 0.4 }}
-            className="flex justify-center gap-4 mb-6"
+            className="flex justify-center gap-3 mb-5"
           >
             {pin.map((digit, index) => (
               <input
@@ -118,7 +118,7 @@ export function LoginScreen() {
                 onChange={e => handlePinChange(index, e.target.value)}
                 onKeyDown={e => handleKeyDown(index, e)}
                 className={`
-                  w-16 h-16 text-center text-2xl font-mono font-bold
+                  w-14 h-14 text-center text-xl font-mono font-bold
                   bg-ink-800 border-2 rounded-xl outline-none transition-all
                   ${digit ? 'border-dragon-500 text-dragon-400' : 'border-ink-700 text-ink-300'}
                   focus:border-dragon-500 focus:ring-2 focus:ring-dragon-500/30
@@ -141,7 +141,7 @@ export function LoginScreen() {
           </AnimatePresence>
 
           {/* Numeric Keypad */}
-          <div className="grid grid-cols-3 gap-3 mb-6">
+          <div className="grid grid-cols-3 gap-2 mb-5">
             {[1, 2, 3, 4, 5, 6, 7, 8, 9, null, 0, 'del'].map((key, i) => (
               <motion.button
                 key={i}
@@ -166,7 +166,7 @@ export function LoginScreen() {
                 }}
                 disabled={key === null}
                 className={`
-                  h-14 rounded-xl font-semibold text-lg transition-all
+                  h-12 rounded-lg font-semibold text-base transition-all
                   ${key === null ? 'invisible' : ''}
                   ${key === 'del' 
                     ? 'bg-ink-800 text-ink-400 hover:bg-ink-700 hover:text-ink-200' 
