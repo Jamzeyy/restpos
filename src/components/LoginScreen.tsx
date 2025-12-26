@@ -145,12 +145,13 @@ export function LoginScreen() {
                 onClick={() => {
                   if (key === null) return;
                   if (key === 'del') {
-                    const lastFilledIndex = pin.findLastIndex(d => d !== '');
-                    if (lastFilledIndex >= 0) {
+                    const lastFilledIndex = [...pin].reverse().findIndex((d: string) => d !== '');
+                    const actualIndex = lastFilledIndex >= 0 ? pin.length - 1 - lastFilledIndex : -1;
+                    if (actualIndex >= 0) {
                       const newPin = [...pin];
-                      newPin[lastFilledIndex] = '';
+                      newPin[actualIndex] = '';
                       setPin(newPin);
-                      inputRefs.current[lastFilledIndex]?.focus();
+                      inputRefs.current[actualIndex]?.focus();
                     }
                   } else {
                     const firstEmptyIndex = pin.findIndex(d => d === '');

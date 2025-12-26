@@ -5,8 +5,6 @@ import {
   Search,
   Filter,
   Clock,
-  User,
-  ShoppingBag,
   CreditCard,
   LayoutGrid,
   LogIn,

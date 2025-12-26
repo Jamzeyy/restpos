@@ -4,7 +4,6 @@ import {
   Search,
   Plus,
   Edit3,
-  Trash2,
   X,
   Check,
   Shield,

@@ -47,7 +47,6 @@ export function OrderView() {
   const updateOrderItem = usePOSStore(state => state.updateOrderItem);
   const removeOrderItem = usePOSStore(state => state.removeOrderItem);
   const sendOrderToKitchen = usePOSStore(state => state.sendOrderToKitchen);
-  const updateOrder = usePOSStore(state => state.updateOrder);
   const processPayment = usePOSStore(state => state.processPayment);
   const voidOrder = usePOSStore(state => state.voidOrder);
   const taxRate = usePOSStore(state => state.taxRate);

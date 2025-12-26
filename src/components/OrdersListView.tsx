@@ -16,7 +16,7 @@ import {
   DollarSign
 } from 'lucide-react';
 import { usePOSStore } from '../store';
-import type { Order, OrderStatus, OrderType } from '../types';
+import type { OrderStatus, OrderType } from '../types';
 import { ORDER_STATUS_LABELS, ORDER_TYPE_LABELS } from '../types';
 import { clsx } from 'clsx';
 

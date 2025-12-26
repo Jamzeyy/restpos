@@ -1,4 +1,4 @@
-import type { MenuItem, Table, User, MenuCategory } from '../types';
+import type { MenuItem, Table, User } from '../types';
 import { ROLE_PERMISSIONS } from '../types';
 
 export const MENU_ITEMS: MenuItem[] = [

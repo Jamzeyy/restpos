@@ -8,10 +8,6 @@ import {
   Users,
   CreditCard,
   Banknote,
-  Utensils,
-  Truck,
-  ChefHat,
-  Calendar,
   ArrowUp,
   ArrowDown
 } from 'lucide-react';
@@ -23,8 +19,6 @@ import {
   CartesianGrid,
   Tooltip,
   ResponsiveContainer,
-  BarChart,
-  Bar,
   PieChart,
   Pie,
   Cell

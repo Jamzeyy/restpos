@@ -29,7 +29,7 @@ export function SettingsView() {
   const [saved, setSaved] = useState(false);
 
   // Mock printer data
-  const [printers, setPrinters] = useState([
+  const [printers] = useState([
     { id: '1', name: 'Kitchen Printer', type: 'kitchen', ip: '192.168.1.100', status: 'online' },
     { id: '2', name: 'Receipt Printer', type: 'receipt', ip: '192.168.1.101', status: 'online' },
     { id: '3', name: 'Bar Printer', type: 'bar', ip: '192.168.1.102', status: 'offline' },
