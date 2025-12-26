@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Restaurant POS</title>
+  <link rel="stylesheet" href="/static/styles.css" />
+</head>
+<body>
+  <main class="pos">
+    <header class="pos__header">
+      <div>
+        <h1>Order Ticket</h1>
+        <p class="muted">Tie every order to a table or a takeout/delivery ticket.</p>
+      </div>
+      <div class="pos__header-actions">
+        <button class="ghost" id="open-printer-settings">Admin</button>
+        <button class="primary" id="submit-order">Send Order</button>
+      </div>
+    </header>
+
+    <section class="pos__body">
+      <div class="ticket">
+        <div class="ticket__section">
+          <h2>Ticket Details</h2>
+          <div class="ticket__controls">
+            <label>
+              Order Type
+              <select id="order-type">
+                <option value="dine-in">Dine In</option>
+                <option value="takeout">Takeout</option>
+                <option value="delivery">Delivery</option>
+              </select>
+            </label>
+            <label>
+              <span id="table-label-text">Table</span>
+              <input id="table-label" type="text" placeholder="Table 12 or Uber Eats" />
+            </label>
+          </div>
+          <div class="ticket__controls is-hidden" id="delivery-fields">
+            <label>
+              Delivery Address
+              <input id="delivery-address" type="text" placeholder="123 Market St, Apt 4B" />
+            </label>
+            <label>
+              Contact Info
+              <input id="delivery-contact" type="text" placeholder="(415) 555-0199 or customer@email.com" />
+            </label>
+          </div>
+        </div>
+
+        <div class="ticket__section">
+          <div class="ticket__title-row">
+            <h2>Order Ticket</h2>
+            <span id="item-count">0 items</span>
+          </div>
+          <div id="ticket-items" class="ticket__items"></div>
+        </div>
+      </div>
+
+      <div class="menu">
+        <div class="menu__header">
+          <h2>Menu Browser</h2>
+          <div class="menu__filters" id="category-tabs"></div>
+        </div>
+        <div class="menu__search">
+          <input
+            id="menu-search"
+            type="search"
+            placeholder="Search by name or description"
+            aria-label="Search menu items"
+          />
+          <div class="menu__filters" id="quick-filters"></div>
+        </div>
+        <div id="menu-items" class="menu__items"></div>
+      </div>
+
+      <aside class="receipt">
+        <h2>Receipt Preview</h2>
+        <div class="receipt__line">
+          <span>Order Type</span>
+          <strong id="receipt-order-type">Dine In</strong>
+        </div>
+        <div class="receipt__line is-hidden" id="receipt-delivery-address">
+          <span>Delivery Address</span>
+          <strong></strong>
+        </div>
+        <div class="receipt__line is-hidden" id="receipt-delivery-contact">
+          <span>Contact</span>
+          <strong></strong>
+        </div>
+        <div class="receipt__line">
+          <span>Subtotal</span>
+          <strong id="subtotal">$0.00</strong>
+        </div>
+        <div class="receipt__line">
+          <span>Tax (<span id="tax-rate">0%</span>)</span>
+          <strong id="tax">$0.00</strong>
+        </div>
+        <label class="receipt__input">
+          Tip
+          <input id="tip" type="number" min="0" step="0.01" value="0" />
+        </label>
+        <label class="receipt__input">
+          Discount
+          <input id="discount" type="number" min="0" step="0.01" value="0" />
+        </label>
+        <div class="receipt__line total">
+          <span>Total</span>
+          <strong id="total">$0.00</strong>
+        </div>
+        <div class="receipt__actions">
+          <button class="primary" id="take-payment" disabled>Take Payment</button>
+        </div>
+        <div class="receipt__payment-summary" id="payment-summary">
+          <div class="receipt__line">
+            <span>Last Payment</span>
+            <strong id="payment-method">—</strong>
+          </div>
+          <div class="receipt__line">
+            <span>Tendered</span>
+            <strong id="payment-tendered">$0.00</strong>
+          </div>
+          <div class="receipt__line">
+            <span>Change Due</span>
+            <strong id="payment-change">$0.00</strong>
+          </div>
+          <p class="muted" id="payment-status">No payments recorded yet.</p>
+        </div>
+        <p class="muted" id="order-status">Ready to send.</p>
+      </aside>
+    </section>
+  </main>
+
+  <div class="modal is-hidden" id="tender-modal" aria-hidden="true">
+    <div class="modal__backdrop" data-action="close"></div>
+    <div class="modal__content" role="dialog" aria-modal="true">
+      <div class="modal__header">
+        <h2>Take Payment</h2>
+        <button class="modal__close" data-action="close" aria-label="Close payment window">
+          ×
+        </button>
+      </div>
+      <div class="modal__body">
+        <div class="tender__summary">
+          <span>Amount Due</span>
+          <strong id="tender-total">$0.00</strong>
+        </div>
+        <div class="tender__methods">
+          <label class="tender__option">
+            <input type="radio" name="payment-method" value="cash" checked />
+            Cash
+          </label>
+          <label class="tender__option">
+            <input type="radio" name="payment-method" value="card" />
+            Credit Card
+          </label>
+        </div>
+        <div class="tender__panel" id="cash-panel">
+          <label class="receipt__input">
+            Amount Tendered
+            <input id="cash-tendered" type="number" min="0" step="0.01" value="0" />
+          </label>
+          <div class="receipt__line">
+            <span>Change Due</span>
+            <strong id="cash-change">$0.00</strong>
+          </div>
+        </div>
+        <div class="tender__panel is-hidden" id="card-panel">
+          <p class="muted">
+            Stripe Terminal ready. Ask guest to tap, insert, or swipe their card.
+          </p>
+          <div class="receipt__line">
+            <span>Gateway</span>
+            <strong>Stripe Terminal</strong>
+          </div>
+          <div class="receipt__line">
+            <span>Status</span>
+            <strong id="card-status">Awaiting authorization</strong>
+          </div>
+        </div>
+        <p class="muted error is-hidden" id="tender-error"></p>
+      </div>
+      <div class="modal__footer">
+        <button class="ghost" data-action="close">Cancel</button>
+        <button class="primary" id="confirm-payment">Finalize Payment</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal is-hidden" id="printer-modal" aria-hidden="true">
+    <div class="modal__backdrop" data-action="close-printer"></div>
+    <div class="modal__content modal__content--wide" role="dialog" aria-modal="true">
+      <div class="modal__header">
+        <h2>Printer Configuration (Admin)</h2>
+        <button class="modal__close" data-action="close-printer" aria-label="Close printer window">
+          ×
+        </button>
+      </div>
+      <div class="modal__body printer-modal__body">
+        <section class="printer-modal__section">
+          <h3>Connected Printers</h3>
+          <div id="printer-list" class="printer-list muted">No printers configured.</div>
+          <form id="printer-form" class="printer-form">
+            <label>
+              Name
+              <input id="printer-name" type="text" placeholder="Kitchen Line 1" />
+            </label>
+            <label>
+              Connection Type
+              <select id="printer-type">
+                <option value="escpos">ESC/POS Network or USB</option>
+                <option value="driver">Platform Driver</option>
+              </select>
+            </label>
+            <label>
+              Device Identifier
+              <input id="printer-device" type="text" placeholder="192.168.10.25:9100 or Printer Queue" />
+            </label>
+            <button class="primary" type="submit">Add Printer</button>
+          </form>
+        </section>
+        <section class="printer-modal__section">
+          <h3>Print Routing</h3>
+          <label>
+            Kitchen Tickets
+            <select id="kitchen-printer-select"></select>
+          </label>
+          <label>
+            Customer Receipts
+            <select id="receipt-printer-select"></select>
+          </label>
+          <button class="primary" id="save-printer-mapping">Save Routing</button>
+          <p class="muted" id="printer-mapping-status"></p>
+        </section>
+        <section class="printer-modal__section">
+          <h3>Recent Print Jobs</h3>
+          <div id="print-job-list" class="printer-list muted">No print jobs queued.</div>
+        </section>
+      </div>
+      <div class="modal__footer">
+        <p class="muted">Admin access is restricted to approved managers.</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    window.POS_CONFIG = {
+      taxRate: {{ tax_rate }}
+    };
+  </script>
+  <script src="/static/app.js"></script>
+</body>
+</html>
