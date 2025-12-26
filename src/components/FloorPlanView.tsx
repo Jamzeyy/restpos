@@ -81,7 +81,10 @@ export function FloorPlanView() {
   const handleDragStart = (e: React.MouseEvent, table: Table) => {
     if (!isEditMode) return;
     
-    const rect = (e.target as HTMLElement).getBoundingClientRect();
+    e.preventDefault();
+    e.stopPropagation();
+    
+    const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
     setDragOffset({
       x: e.clientX - rect.left,
       y: e.clientY - rect.top
@@ -91,6 +94,8 @@ export function FloorPlanView() {
 
   const handleDragMove = (e: React.MouseEvent) => {
     if (!draggedTable || !isEditMode) return;
+    
+    e.preventDefault();
     
     const container = document.getElementById('floor-plan-container');
     if (!container) return;
@@ -178,7 +183,10 @@ export function FloorPlanView() {
       {/* Floor Plan Container */}
       <div 
         id="floor-plan-container"
-        className="flex-1 relative overflow-auto p-6 pattern-grid"
+        className={clsx(
+          "flex-1 relative overflow-auto p-6 pattern-grid",
+          draggedTable && "select-none cursor-grabbing"
+        )}
         onMouseMove={handleDragMove}
         onMouseUp={handleDragEnd}
         onMouseLeave={handleDragEnd}
@@ -215,16 +223,18 @@ export function FloorPlanView() {
               }}
               transition={{ type: 'spring', damping: 20, stiffness: 300 }}
               className={clsx(
-                'absolute cursor-pointer transition-all duration-200',
+                'absolute transition-all duration-200',
                 'flex flex-col items-center justify-center gap-1',
-                'border-2',
+                'border-2 select-none',
                 colors.bg,
                 colors.border,
                 colors.text,
                 table.shape === 'round' && 'rounded-full',
                 table.shape === 'square' && 'rounded-xl',
                 table.shape === 'rectangle' && 'rounded-xl',
-                draggedTable === table.id && 'shadow-glow z-50',
+                draggedTable === table.id && 'shadow-glow z-50 cursor-grabbing',
+                draggedTable !== table.id && isEditMode && 'cursor-grab',
+                !isEditMode && 'cursor-pointer',
                 isEditMode && 'ring-2 ring-gold-500/30 ring-offset-2 ring-offset-ink-950'
               )}
               style={{
