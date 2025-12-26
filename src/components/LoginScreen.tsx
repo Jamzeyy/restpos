@@ -85,12 +85,12 @@ export function LoginScreen() {
           initial={{ scale: 0.8, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ delay: 0.2, duration: 0.5 }}
-          className="relative flex items-center justify-center mb-10"
+          className="relative flex items-center justify-center mb-8"
         >
           <img 
             src="/ten-ten-logo.webp" 
             alt="Ten Ten Seafood" 
-            className="absolute right-full mr-3 h-24 w-auto object-contain" 
+            className="absolute left-2 h-20 w-auto object-contain" 
           />
           <div className="flex flex-col items-center">
             <h1 className="text-3xl font-display font-bold text-gradient mb-1">
