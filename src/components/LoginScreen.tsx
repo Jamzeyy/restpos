@@ -88,10 +88,10 @@ export function LoginScreen() {
             transition={{ delay: 0.2, duration: 0.5 }}
             className="inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-gradient-to-br from-dragon-500 to-dragon-700 shadow-glow mb-6"
           >
-            <span className="text-4xl">🐉</span>
+            <span className="text-4xl">🦐</span>
           </motion.div>
           <h1 className="text-3xl font-display font-bold text-gradient mb-2">
-            Dragon Palace
+            Ten Ten Seafood
           </h1>
           <p className="text-ink-400">Enter your PIN to continue</p>
         </div>
@@ -199,7 +199,7 @@ export function LoginScreen() {
 
         {/* Footer */}
         <p className="text-center text-ink-600 text-sm mt-6">
-          Dragon Palace POS v1.0
+          Ten Ten Seafood POS v1.0
         </p>
       </motion.div>
     </div>

@@ -61,7 +61,7 @@ export function MainLayout() {
         <div className="p-6 border-b border-ink-800/50">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-dragon-500 to-dragon-700 flex items-center justify-center shadow-glow">
-              <span className="text-xl">🐉</span>
+              <span className="text-xl">🦐</span>
             </div>
             <div>
               <h1 className="font-display font-semibold text-ink-100">{restaurantName}</h1>

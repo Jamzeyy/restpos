@@ -558,14 +558,14 @@ export const usePOSStore = create<POSState>()(
       },
       
       // Settings
-      taxRate: 0.0825, // 8.25%
-      restaurantName: 'Dragon Palace',
+      taxRate: 0.07, // 7% Florida sales tax
+      restaurantName: 'Ten Ten Seafood',
       
       setTaxRate: (rate) => set({ taxRate: rate }),
       setRestaurantName: (name) => set({ restaurantName: name })
     }),
     {
-      name: 'dragon-palace-pos',
+      name: 'ten-ten-seafood-pos',
       partialize: (state) => ({
         orders: state.orders,
         payments: state.payments,
