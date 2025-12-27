@@ -124,57 +124,57 @@ export function FloorPlanView() {
   return (
     <div className="h-full flex flex-col">
       {/* Header */}
-      <header className="flex-shrink-0 px-6 py-4 border-b border-ink-800/50 bg-ink-900/30">
-        <div className="flex items-center justify-between">
+      <header className="flex-shrink-0 px-4 sm:px-6 py-3 sm:py-4 border-b border-ink-800/50 bg-ink-900/30">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
           <div>
-            <h1 className="text-2xl font-display font-bold text-ink-100">Floor Plan</h1>
-            <p className="text-ink-500 text-sm mt-1">
-              Click a table to view or start an order
+            <h1 className="text-xl sm:text-2xl font-display font-bold text-ink-100">Floor Plan</h1>
+            <p className="text-ink-500 text-xs sm:text-sm mt-0.5 sm:mt-1">
+              Tap a table to view or start an order
             </p>
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
             {/* Quick Actions */}
             <button 
               onClick={() => handleNewTakeoutDelivery('takeout')}
-              className="btn-secondary"
+              className="btn-secondary text-sm sm:text-base px-3 py-2 sm:px-4 sm:py-2.5 touch-manipulation"
             >
               <ChefHat className="w-4 h-4" />
-              New Takeout
+              <span className="hidden xs:inline">New</span> Takeout
             </button>
             <button 
               onClick={() => handleNewTakeoutDelivery('delivery')}
-              className="btn-secondary"
+              className="btn-secondary text-sm sm:text-base px-3 py-2 sm:px-4 sm:py-2.5 touch-manipulation"
             >
               <Clock className="w-4 h-4" />
-              New Delivery
+              <span className="hidden xs:inline">New</span> Delivery
             </button>
             
             {canEditLayout && (
               <button 
                 onClick={() => setIsEditMode(!isEditMode)}
                 className={clsx(
-                  'btn',
+                  'btn text-sm sm:text-base px-3 py-2 sm:px-4 sm:py-2.5 touch-manipulation',
                   isEditMode ? 'btn-gold' : 'btn-ghost'
                 )}
               >
                 {isEditMode ? <Save className="w-4 h-4" /> : <Settings className="w-4 h-4" />}
-                {isEditMode ? 'Save Layout' : 'Edit Layout'}
+                <span className="hidden sm:inline">{isEditMode ? 'Save Layout' : 'Edit Layout'}</span>
               </button>
             )}
           </div>
         </div>
 
         {/* Legend */}
-        <div className="flex items-center gap-6 mt-4">
+        <div className="flex items-center gap-3 sm:gap-6 mt-3 sm:mt-4 overflow-x-auto pb-1">
           {Object.entries(TABLE_STATUS_LABELS).map(([status, label]) => (
-            <div key={status} className="flex items-center gap-2">
+            <div key={status} className="flex items-center gap-1.5 sm:gap-2 flex-shrink-0">
               <div className={clsx(
-                'w-3 h-3 rounded-full',
+                'w-2.5 sm:w-3 h-2.5 sm:h-3 rounded-full',
                 statusColors[status as TableStatus].bg,
                 'border',
                 statusColors[status as TableStatus].border
               )} />
-              <span className="text-sm text-ink-400">{label}</span>
+              <span className="text-xs sm:text-sm text-ink-400 whitespace-nowrap">{label}</span>
             </div>
           ))}
         </div>
@@ -184,12 +184,26 @@ export function FloorPlanView() {
       <div 
         id="floor-plan-container"
         className={clsx(
-          "flex-1 relative overflow-auto p-6 pattern-grid",
+          "flex-1 relative overflow-auto p-4 sm:p-6 pattern-grid touch-pan-x touch-pan-y",
           draggedTable && "select-none cursor-grabbing"
         )}
         onMouseMove={handleDragMove}
         onMouseUp={handleDragEnd}
         onMouseLeave={handleDragEnd}
+        onTouchMove={(e) => {
+          if (!draggedTable || !isEditMode) return;
+          const touch = e.touches[0];
+          const container = document.getElementById('floor-plan-container');
+          if (!container) return;
+          const rect = container.getBoundingClientRect();
+          const x = touch.clientX - rect.left - dragOffset.x;
+          const y = touch.clientY - rect.top - dragOffset.y;
+          updateTablePosition(draggedTable, { 
+            x: Math.max(0, Math.min(x, rect.width - 80)),
+            y: Math.max(0, Math.min(y, rect.height - 80))
+          });
+        }}
+        onTouchEnd={handleDragEnd}
       >
         {/* Section Labels */}
         {sections.map(section => (
@@ -244,6 +258,17 @@ export function FloorPlanView() {
               }}
               onClick={() => handleTableClick(table)}
               onMouseDown={(e) => handleDragStart(e, table)}
+              onTouchStart={(e) => {
+                if (!isEditMode) return;
+                e.preventDefault();
+                const touch = e.touches[0];
+                const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
+                setDragOffset({
+                  x: touch.clientX - rect.left,
+                  y: touch.clientY - rect.top
+                });
+                setDraggedTable(table.id);
+              }}
             >
               <span className="font-bold text-lg">{table.label}</span>
               <div className="flex items-center gap-1 text-xs opacity-75">

@@ -6,10 +6,24 @@
   html {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
   }
   
   body {
     @apply bg-ink-950 text-ink-100 font-sans;
+    overscroll-behavior: none;
+  }
+
+  /* Prevent text selection on touch */
+  .no-select {
+    -webkit-user-select: none;
+    user-select: none;
+  }
+
+  /* Better touch targets */
+  button, a, [role="button"] {
+    touch-action: manipulation;
   }
 
   /* Custom scrollbar */

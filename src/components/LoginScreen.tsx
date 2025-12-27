@@ -85,18 +85,18 @@ export function LoginScreen() {
           initial={{ scale: 0.8, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ delay: 0.2, duration: 0.5 }}
-          className="relative flex items-center justify-center mb-8"
+          className="flex items-center justify-center gap-3 mb-6 sm:mb-8"
         >
           <img 
             src="/ten-ten-logo.webp" 
             alt="Ten Ten Seafood" 
-            className="absolute left-2 h-20 w-auto object-contain" 
+            className="h-16 sm:h-20 w-auto object-contain flex-shrink-0" 
           />
-          <div className="flex flex-col items-center">
-            <h1 className="text-3xl font-display font-bold text-gradient mb-1">
+          <div className="flex flex-col">
+            <h1 className="text-2xl sm:text-3xl font-display font-bold text-gradient mb-1">
               Ten Ten Seafood
             </h1>
-            <p className="text-ink-400">Enter your PIN to continue</p>
+            <p className="text-ink-400 text-sm sm:text-base">Enter your PIN to continue</p>
           </div>
         </motion.div>
 
@@ -141,7 +141,7 @@ export function LoginScreen() {
           </AnimatePresence>
 
           {/* Numeric Keypad */}
-          <div className="grid grid-cols-3 gap-2 mb-5">
+          <div className="grid grid-cols-3 gap-2 sm:gap-3 mb-5">
             {[1, 2, 3, 4, 5, 6, 7, 8, 9, null, 0, 'del'].map((key, i) => (
               <motion.button
                 key={i}
@@ -166,10 +166,10 @@ export function LoginScreen() {
                 }}
                 disabled={key === null}
                 className={`
-                  h-12 rounded-lg font-semibold text-base transition-all
+                  h-12 sm:h-14 rounded-lg font-semibold text-lg sm:text-xl transition-all touch-manipulation select-none
                   ${key === null ? 'invisible' : ''}
                   ${key === 'del' 
-                    ? 'bg-ink-800 text-ink-400 hover:bg-ink-700 hover:text-ink-200' 
+                    ? 'bg-ink-800 text-ink-400 hover:bg-ink-700 hover:text-ink-200 active:bg-ink-600' 
                     : 'bg-ink-800 text-ink-100 hover:bg-ink-700 active:bg-ink-600'
                   }
                 `}
